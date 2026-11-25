@@ -115,7 +115,10 @@ class GeneratorTests(unittest.TestCase):
             output = root / "references"
             run(source, output)
             verify(output)
+            license_text = (output / "DATA_LICENSE.md").read_text(encoding="utf-8")
+            self.assertIn("CC BY-SA 4.0", license_text)
             manifest = json.loads((output / "manifest.json").read_text())
+            self.assertIn("DATA_LICENSE.md", manifest["file_sha256"])
             self.assertEqual(manifest["selection"]["stars"], 2)
             self.assertEqual(manifest["selection"]["quality_counts"],
                              {"assumed": 1, "complete": 1})
