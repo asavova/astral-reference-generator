@@ -263,6 +263,32 @@
       ]
     },
     {
+      "id": "water",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "water.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "Water might relate to movement, change, or a surrounding condition; the events and emotions in the dream determine whether that reading fits."
+        },
+        {
+          "id": "water.rising",
+          "when": {
+            "status": [
+              "PRESENT"
+            ],
+            "action": "rise"
+          },
+          "text": "Rising water is an escalating event in the account; any proposed meaning must use that context."
+        }
+      ]
+    },
+    {
       "id": "river",
       "kind": "symbol",
       "interpretations": [
