@@ -2,6 +2,10 @@
 """Prepare official IERS EOP observations and forecasts for an offline application."""
 import argparse
 import hashlib
+import ssl
+import subprocess
+import sys
+import urllib.error
 import json
 import shutil
 import tarfile
@@ -66,8 +70,25 @@ def verify(folder):
 
 def download(url, path):
     request = urllib.request.Request(url, headers={'User-Agent': 'astral-reference-generator/1.0'})
-    with urllib.request.urlopen(request, timeout=120) as r, path.open('wb') as f:
-        shutil.copyfileobj(r, f)
+    try:
+        with urllib.request.urlopen(request, timeout=120) as response, path.open('wb') as output:
+            shutil.copyfileobj(response, output)
+    except urllib.error.URLError as error:
+        reason = getattr(error, 'reason', None)
+        certificate_error = isinstance(reason, ssl.SSLCertVerificationError) or (
+            'CERTIFICATE_VERIFY_FAILED' in str(error)
+        )
+        if not (certificate_error and sys.platform == 'win32'):
+            raise
+        # Windows curl normally uses the Windows certificate store (Schannel).
+        # Keep HTTPS certificate verification enabled. Never use curl -k.
+        print('Python could not verify the HTTPS certificate; retrying with Windows curl.', flush=True)
+        path.unlink(missing_ok=True)
+        subprocess.run(
+            ['curl.exe', '--fail', '--location', '--show-error',
+             '--silent', '--output', str(path), url],
+            check=True,
+        )
 
 
 def make_archive(folder, archive):
@@ -111,10 +132,14 @@ def prepare(folder, c04_file=None, finals_file=None, force=False):
                         download(url, out)
                         retrieved_from = url
                         break
-                    except Exception:
+                    except Exception as error:
                         out.unlink(missing_ok=True)
                         if index == len(urls)-1:
-                            raise
+                            raise RuntimeError(
+                                f'Could not retrieve {name}. For SSL errors, download the official '
+                                'files using your browser and provide them with --c04-file and '
+                                '--finals-file. Do not disable certificate verification.'
+                            ) from error
             validate_source(out, name)
             entries[name] = {'official_url':official_url, 'retrieved_from':retrieved_from,
                              'sha256':sha256(out), 'bytes':out.stat().st_size}
