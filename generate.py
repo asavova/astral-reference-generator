@@ -243,7 +243,8 @@ def run(source: Path, output: Path, count: int | None = None,
         output / "selected_stars.csv", output / "cirs_positions.csv",
         output / "observed_altaz.csv", output / "manifest.json",
     ]
-    if not force and any(path.exists() for path in destinations):
+    license_path = output / "DATA_LICENSE.md"
+    if not force and any(path.exists() for path in [*destinations, license_path]):
         raise SystemExit("References already exist. Use another folder or --force.")
 
     candidates = load_candidates(source)
@@ -310,6 +311,23 @@ def run(source: Path, output: Path, count: int | None = None,
         "quality", "assumed_fields",
     ], altaz_rows())
 
+    license_path.write_text(
+        "# Reference data: source and licence\n\n"
+        "Source: HYG Star Database v4.1, compiled by David Nash (Astronexus).\n"
+        "Source repository: https://github.com/astronexus/HYG-Database\n"
+        "Source licence: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0).\n"
+        "Licence text: https://creativecommons.org/licenses/by-sa/4.0/\n\n"
+        "Changes: Selected catalogue astrometry was used to calculate apparent CIRS\n"
+        "and observer-dependent altitude/azimuth reference positions with PyERFA/ERFA.\n"
+        "See manifest.json for the exact generator version, input checksum, dates,\n"
+        "site coordinates, calculation conventions and documented assumptions.\n\n"
+        "These derived HYG reference tables are shared under CC BY-SA 4.0.\n"
+        "Attribution does not imply endorsement by the original data author.\n"
+        "The Python generator's MIT licence is separate and does not replace\n"
+        "the underlying catalogue-data licence.\n",
+        encoding="utf-8",
+    )
+
     quality = Counter(s.quality for s in selected)
     missing = Counter(field for s in selected for field in s.missing_fields)
     manifest = {
@@ -357,7 +375,7 @@ def run(source: Path, output: Path, count: int | None = None,
             "cirs_rows": len(selected) * len(EPOCHS),
             "altaz_rows": len(selected) * len(OBSERVED_YEARS) * len(SITES),
         },
-        "file_sha256": {p.name: sha256(p) for p in destinations[:3]},
+        "file_sha256": {p.name: sha256(p) for p in [*destinations[:3], license_path]},
     }
     destinations[3].write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n",
