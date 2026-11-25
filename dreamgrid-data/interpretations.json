@@ -1,0 +1,951 @@
+{
+  "schema_version": 1,
+  "format": "dreamgrid-reference-interpretations",
+  "purpose": "Optional explanations only; connections must come from observed dream evidence, never from these interpretations.",
+  "provenance": {
+    "origin": "Original illustrative interpretation text drafted for the DreamGrid project; no third-party dictionary entries copied.",
+    "license": "MIT",
+    "scope": "Project reference data, not validated psychological interpretations."
+  },
+  "graph_policy": {
+    "may_create_edges": false,
+    "may_change_edge_scores": false,
+    "may_explain_existing_edges": true
+  },
+  "status_vocabulary": [
+    "PRESENT",
+    "ENDED",
+    "ABSENT",
+    "NOT_FOUND",
+    "UNCERTAIN"
+  ],
+  "symbols": [
+    {
+      "id": "door",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "door.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, door might relate to transition or access; this is only a possible reading, not a fact."
+        },
+        {
+          "id": "door.search_not_found",
+          "when": {
+            "status": [
+              "NOT_FOUND"
+            ],
+            "action": "search"
+          },
+          "text": "A door was sought but not located; the account does not establish that no door existed."
+        },
+        {
+          "id": "door.locked",
+          "when": {
+            "status": [
+              "PRESENT"
+            ],
+            "state": "locked"
+          },
+          "text": "A locked door may suggest blocked access in the described situation."
+        },
+        {
+          "id": "door.opened",
+          "when": {
+            "status": [
+              "PRESENT"
+            ],
+            "action": "open"
+          },
+          "text": "Opening a door may suggest gaining access or beginning a transition."
+        }
+      ]
+    },
+    {
+      "id": "key",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "key.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, key might relate to access or a means of resolving a difficulty; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "lock",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "lock.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, lock might relate to restriction or protection; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "window",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "window.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, window might relate to a viewpoint or another possibility; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "house",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "house.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, house might relate to a familiar or private setting; this is only a possible reading, not a fact."
+        },
+        {
+          "id": "house.trapped",
+          "when": {
+            "status": [
+              "PRESENT"
+            ],
+            "relation": "trapped_in"
+          },
+          "text": "Being trapped in a house can indicate restricted movement in that scene."
+        }
+      ]
+    },
+    {
+      "id": "room",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "room.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, room might relate to a bounded personal space; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "corridor",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "corridor.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, corridor might relate to movement between places; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "stairs",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "stairs.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, stairs might relate to a gradual transition; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "bridge",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "bridge.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, bridge might relate to crossing or connecting situations; this is only a possible reading, not a fact."
+        },
+        {
+          "id": "bridge.crossed",
+          "when": {
+            "status": [
+              "PRESENT"
+            ],
+            "action": "cross"
+          },
+          "text": "Crossing a bridge describes a change of position or situation."
+        }
+      ]
+    },
+    {
+      "id": "road",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "road.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, road might relate to direction or movement through a situation; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "path",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "path.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, path might relate to a route or choice; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "forest",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "forest.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, forest might relate to uncertainty or exploration; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "river",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "river.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, river might relate to movement or change; this is only a possible reading, not a fact."
+        },
+        {
+          "id": "river.crossed",
+          "when": {
+            "status": [
+              "PRESENT"
+            ],
+            "action": "cross"
+          },
+          "text": "Crossing the river may describe a move between situations."
+        }
+      ]
+    },
+    {
+      "id": "ocean",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "ocean.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, ocean might relate to scale or the unknown; this is only a possible reading, not a fact."
+        },
+        {
+          "id": "ocean.fear",
+          "when": {
+            "status": [
+              "PRESENT"
+            ],
+            "relation": "fear_of_ocean"
+          },
+          "text": "The dream explicitly links fear to the ocean, not merely a fear elsewhere in the scene."
+        }
+      ]
+    },
+    {
+      "id": "lake",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "lake.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, lake might relate to stillness or reflection; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "rain",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "rain.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, rain might relate to change in the environment; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "flood",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "flood.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, flood might relate to a situation that becomes hard to control; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "fire",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "fire.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, fire might relate to intensity or transformation; this is only a possible reading, not a fact."
+        },
+        {
+          "id": "fire.ended",
+          "when": {
+            "status": [
+              "ENDED"
+            ]
+          },
+          "text": "The fire existed in the account and then stopped; avoid treating this as absence throughout."
+        },
+        {
+          "id": "fire.absent",
+          "when": {
+            "status": [
+              "ABSENT"
+            ],
+            "relation": "explicit_absence"
+          },
+          "text": "Explicit lack of fire is a factual observation; do not infer calm or safety from it alone."
+        }
+      ]
+    },
+    {
+      "id": "smoke",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "smoke.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, smoke might relate to uncertainty about a cause or event; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "storm",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "storm.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, storm might relate to disruption or instability; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "wind",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "wind.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, wind might relate to an influence that is difficult to control; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "mountain",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "mountain.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, mountain might relate to a difficult undertaking or perspective; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "cave",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "cave.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, cave might relate to isolation or discovery; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "city",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "city.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, city might relate to a busy or social environment; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "train",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "train.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, train might relate to movement along a set route; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "car",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "car.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, car might relate to control or direction of travel; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "airplane",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "airplane.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, airplane might relate to a rapid change of place; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "boat",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "boat.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, boat might relate to travel across uncertainty; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "mirror",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "mirror.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, mirror might relate to self-observation or perspective; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "shadow",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "shadow.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, shadow might relate to something unclear or partly hidden; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "light",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "light.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, light might relate to visibility or understanding; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "darkness",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "darkness.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, darkness might relate to limited information or visibility; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "clock",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "clock.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, clock might relate to time or urgency; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "phone",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "phone.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, phone might relate to communication or a missed connection; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "letter",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "letter.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, letter might relate to a message or expectation; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "book",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "book.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, book might relate to knowledge or an unfolding account; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "school",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "school.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, school might relate to learning or evaluation; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "child",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "child.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, child might relate to care or vulnerability in the described scene; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "animal",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "animal.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, animal might relate to an encounter with another living being; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "stranger",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "stranger.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, stranger might relate to an unfamiliar person or encounter; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "friend",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "friend.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, friend might relate to an existing personal relationship; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "family",
+      "kind": "symbol",
+      "interpretations": [
+        {
+          "id": "family.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, family might relate to relationships or responsibilities; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "falling",
+      "kind": "event",
+      "interpretations": [
+        {
+          "id": "falling.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, falling might relate to a loss of stability or control; this is only a possible reading, not a fact."
+        },
+        {
+          "id": "falling.stopped",
+          "when": {
+            "status": [
+              "ENDED"
+            ]
+          },
+          "text": "The fall ended; the sequence matters more than a generic symbol label."
+        }
+      ]
+    },
+    {
+      "id": "flying",
+      "kind": "event",
+      "interpretations": [
+        {
+          "id": "flying.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, flying might relate to freedom or a change in perspective; this is only a possible reading, not a fact."
+        },
+        {
+          "id": "flying.fear",
+          "when": {
+            "status": [
+              "PRESENT"
+            ],
+            "relation": "fear_of_flying"
+          },
+          "text": "Fear of flying is different from simply being afraid while flying."
+        }
+      ]
+    },
+    {
+      "id": "chasing",
+      "kind": "event",
+      "interpretations": [
+        {
+          "id": "chasing.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, chasing might relate to pursuit or pressure; this is only a possible reading, not a fact."
+        },
+        {
+          "id": "chasing.witnessed",
+          "when": {
+            "status": [
+              "PRESENT"
+            ],
+            "role": "observer"
+          },
+          "text": "Witnessing pursuit is distinct from being pursued."
+        }
+      ]
+    },
+    {
+      "id": "hiding",
+      "kind": "event",
+      "interpretations": [
+        {
+          "id": "hiding.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, hiding might relate to concealment or avoiding an encounter; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "searching",
+      "kind": "event",
+      "interpretations": [
+        {
+          "id": "searching.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, searching might relate to a search for something unresolved; this is only a possible reading, not a fact."
+        },
+        {
+          "id": "searching.not_found",
+          "when": {
+            "status": [
+              "NOT_FOUND"
+            ]
+          },
+          "text": "The search was unsuccessful in the stated scene, but may continue later."
+        }
+      ]
+    },
+    {
+      "id": "escape",
+      "kind": "event",
+      "interpretations": [
+        {
+          "id": "escape.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, escape might relate to attempting to leave a situation; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "arriving",
+      "kind": "event",
+      "interpretations": [
+        {
+          "id": "arriving.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, arriving might relate to reaching a destination or new situation; this is only a possible reading, not a fact."
+        }
+      ]
+    },
+    {
+      "id": "losing",
+      "kind": "event",
+      "interpretations": [
+        {
+          "id": "losing.general",
+          "when": {
+            "status": [
+              "PRESENT",
+              "ENDED"
+            ]
+          },
+          "text": "In this context, losing might relate to separation or loss of something valued; this is only a possible reading, not a fact."
+        }
+      ]
+    }
+  ]
+}
