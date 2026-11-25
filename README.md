@@ -1,48 +1,66 @@
 # Astral Reference Generator
 
-An independent Python tool that generates fixed reference star positions for Astral Observatory. It reads the original HYG v4.1 catalogue and uses **PyERFA**, based on the IAU SOFA astronomical routines. It does not use the Java engine's calculations.
+Independent Python tool for generating fixed star-position reference files for Astral Observatory. It uses the original HYG v4.1 catalogue and PyERFA, based on the IAU SOFA astronomical routines. It does not reuse calculations from the Java project.
 
 ## Run
 
-You need **Python 3.11 or newer** and an internet connection for the initial setup. Clone or download this repository, then run from its directory:
+Requires Python 3.11 or later and internet access for the initial setup.
 
 ```bash
 python3 run.py
 ```
 
-On Windows, use `py -3 run.py` instead.
+On Windows, use `py -3 run.py`.
 
-The script automatically:
+The script finds the local HYG catalogue next to this repo, or downloads it from Astral Observatory; creates a virtual environment; installs the pinned PyERFA dependency; runs tests; generates reference positions; and verifies checksums. Results are saved under `references/`.
 
-1. Finds `../astral-observatory/data/hygdata_v41.csv` if you have the application repository beside this one; otherwise downloads that catalogue from the public Astral Observatory repository into `cache/`.
-2. Creates a local `.venv` and installs the pinned PyERFA dependency.
-3. Runs the generator tests.
-4. Selects 400 stars with complete measurements, generates the reference positions and verifies their checksums and row counts.
+**By default, the generator includes every usable non-Sun star with valid J2000 coordinates.** It does not stop at 400 stars, and it does not require a Hipparcos ID. Missing proper motion, distance or radial velocity is flagged in the output. If a measurement is missing, ERFA uses an explicit zero-motion/zero-parallax/zero-radial-velocity computational assumption, and the result is labeled `assumed` rather than `complete`. Only stars labeled `complete` are candidates for strict numerical-accuracy comparisons.
 
-The files are saved in `references/`. A second run verifies existing files **without overwriting them**, so they stay fixed across coding turns. To deliberately replace them, run `python3 run.py --force`. To supply the input explicitly, run `python3 run.py --catalog /path/to/hygdata_v41.csv`.
+For a smaller test run:
+
+```bash
+python3 run.py --count 400
+```
+
+Existing verified output is not overwritten by a normal run. To replace it (including an earlier 400-star dataset), explicitly use:
+
+```bash
+python3 run.py --force
+```
+
+You can also pass a local catalogue using `--catalog /path/to/hygdata_v41.csv`. The script generates into a separate staging folder, checks the results, then publishes them. Failed generation won't replace existing files.
 
 ## Generated files
 
 | File | Contents |
 | --- | --- |
-| `selected_stars.csv` | 400 selected HIP stars and the source astrometric measurements |
-| `cirs_positions.csv` | 3,600 geocentric apparent CIRS positions for nine dates spanning 1800–2200 |
-| `observed_altaz.csv` | 4,800 azimuth/altitude positions for Sofia, Greenwich and Sydney at four dates during 2000–2025 |
-| `manifest.json` | Source and generator SHA-256, PyERFA version, assumptions, file checksums and row counts |
+| `selected_stars.csv` | Original HYG measurements, identifiers and data-quality flags |
+| `cirs_positions.csv` | Nine geocentric apparent CIRS positions per star, from 1800 to 2200 |
+| `observed_altaz.csv` | Twelve observer-dependent positions per star for Sofia, Greenwich and Sydney over four dates |
+| `manifest.json` | Source and generator hashes, PyERFA version, assumptions, quality counts, output hashes and row counts |
 
-You can copy the **generated CSVs and manifest** to the offline coding desktop. Keep this generator separate from the Java project.
+With 119,625 usable non-Sun stars, the expected output would be **1,076,625 CIRS rows** and **1,435,500 AltAz rows**, plus the selected-star table. The exact counts are reported by the generator; stars with invalid input coordinates are skipped. Generation may take some time and use hundreds of megabytes of disk space. Keep these fixed files on the offline coding desktop rather than relying on an internet connection.
 
-## What the reference positions mean
+## Coordinate conventions
 
-- The CIRS file uses PyERFA's `atci13` routine, with noon **TDB** dates. It is not a J2000 RA/Dec lookup table.
-- The observed AltAz file uses `atco13`, **UTC** dates, a geodetic observing position, an idealized `UT1−UTC = 0`, zero polar motion and no atmospheric refraction. These assumptions must match the engine under test.
-- HYG RA is in hours, Dec in degrees, proper motion in milliarcseconds/year, distances in parsecs and radial velocity in km/s. Missing or dubious measurements are excluded from the selected reference set, not treated as zero.
-- Error comparisons should use the **angular separation** on the celestial sphere. Speed comparisons should time the full-catalogue calculation under consistent conditions.
+- HYG RA/Dec are J2000 coordinates; RA in hours, Dec in degrees.
+- HYG proper motions are read in milliarcseconds/year. The generator interprets `pmra` as mu_RA multiplied by cos(dec) and converts it to the coordinate derivative ERFA expects.
+- A valid HYG distance in parsecs is converted to parallax in arcseconds as 1/distance. HYG distances of 100,000 pc or more are treated as unknown.
+- The CIRS file uses ERFA `atci13` and **TDB** dates. These are apparent geocentric positions, not catalogue J2000 coordinates.
+- The AltAz file uses ERFA `atco13` and **UTC** dates, with idealized UT1−UTC=0, polar motion=0 and no atmospheric refraction.
+- Every row contains `quality` and `assumed_fields`. Filter for `quality=complete` when evaluating strict accuracy. Use a spherical angular separation rather than subtracting RA directly.
 
-These are reproducible calculations using astronomy standards software, **not certified measurements**. HYG does not provide per-star uncertainty estimates, and ERFA's built-in Earth ephemeris is most thoroughly characterized over 1900–2100. Reference comparisons at 1800 and 2200 are extended-model comparisons and do not establish observational accuracy to one arcsecond. HYG catalogue uncertainty likewise limits what can be claimed about every star across four centuries.
+**Scientific limit:** These outputs are repeatable calculations, not certified ground-truth observations. HYG does not provide complete per-star uncertainty estimates, and ERFA's Earth ephemeris is most thoroughly characterized over 1900–2100. The 1800/2200 results are extended-model reference comparisons, not guarantees of physical accuracy below one arcsecond.
+
+## Tests
+
+```bash
+python3 -m unittest discover -s tests -v
+python3 verify.py references
+```
 
 ## Source and licence
 
-- [HYG Star Database v4.1](https://github.com/astronexus/HYG-Database) (compiled by David Nash / Astronexus), **CC BY-SA 4.0**. Generated star reference datasets derived from HYG retain its attribution/share-alike obligations.
-- [PyERFA](https://github.com/liberfa/pyerfa) / [IAU SOFA](https://www.iausofa.org/about-us), standard astronomy routines, installed separately; not bundled in this repository.
-- Generator code: **MIT** (see `LICENSE`).
+- [HYG Star Database v4.1](https://github.com/astronexus/HYG-Database) (Astronexus), CC BY-SA 4.0. Generated reference tables derived from HYG retain attribution and applicable share-alike conditions.
+- [PyERFA](https://github.com/liberfa/pyerfa) / [IAU SOFA](https://www.iausofa.org/about-us), astronomy routines installed separately, not bundled.
+- Generator source code: MIT (see `LICENSE`).
