@@ -38,8 +38,9 @@ You can also pass a local catalogue using `--catalog /path/to/hygdata_v41.csv`. 
 | `cirs_positions.csv` | Nine geocentric apparent CIRS positions per star, from 1800 to 2200 |
 | `observed_altaz.csv` | Twelve observer-dependent positions per star for Sofia, Greenwich and Sydney over four dates |
 | `manifest.json` | Source and generator hashes, PyERFA version, assumptions, quality counts, output hashes and row counts |
+| `DATA_LICENSE.md` | Source attribution, HYG licence terms and a description of how the reference data was derived |
 
-With 119,625 usable non-Sun stars, the expected output would be **1,076,625 CIRS rows** and **1,435,500 AltAz rows**, plus the selected-star table. The exact counts are reported by the generator; stars with invalid input coordinates are skipped. Generation may take some time and use hundreds of megabytes of disk space. Keep these fixed files on the offline coding desktop rather than relying on an internet connection.
+With 119,625 usable non-Sun stars, the expected output would be **1,076,625 CIRS rows** and **1,435,500 AltAz rows**, plus the selected-star table. The exact counts are reported by the generator; stars with invalid input coordinates are skipped. Generation may take some time and use hundreds of megabytes of disk space. Copy the entire `references/` directory onto the offline coding desktop, **separately from the Java repository**. The generator's Python files, `.venv/`, and cached HYG file are not required there. Keep the reference files unchanged across coding turns.
 
 ## Coordinate conventions
 
